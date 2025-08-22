@@ -1,0 +1,122 @@
+
+:root {
+  --bg: #0b0f13;
+  --surface: #121820;
+  --muted: #94a3b8;
+  --text: #e2e8f0;
+  --accent: #22c55e;
+  --accent-2: #16a34a;
+  --danger: #ef4444;
+  --card: #0f141b;
+  --border: #1f2937;
+}
+html.light {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --muted: #64748b;
+  --text: #0f172a;
+  --accent: #0ea5e9;
+  --accent-2: #0284c7;
+  --danger: #ef4444;
+  --card: #ffffff;
+  --border: #e5e7eb;
+}
+
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; background: var(--bg); color: var(--text); font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, Noto Sans, Apple Color Emoji, Segoe UI Emoji; }
+h1, h2 { margin: 0 0 .5rem 0; }
+a { color: var(--muted); text-decoration: none; }
+a:hover { color: var(--text); text-decoration: underline; }
+
+.container { max-width: 980px; margin: 0 auto; padding: 1rem; }
+.header { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding-top: 1rem; }
+.brand { display: flex; gap: .8rem; align-items: center; }
+.logo { width: 40px; height: 40px; border-radius: .6rem; }
+.tagline { color: var(--muted); margin-top: .25rem; }
+.header-actions { display: flex; gap: .5rem; align-items: center; }
+button { cursor: pointer; }
+
+.install.hidden { display: none; }
+.install button, #btnTheme {
+  background: var(--accent);
+  border: 0;
+  color: #000;
+  padding: .6rem 1rem;
+  border-radius: 9999px;
+  font-weight: 700;
+}
+.install button:hover, #btnTheme:hover { background: var(--accent-2); }
+
+.card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem 0;
+  box-shadow: 0 10px 30px rgba(0,0,0,.15);
+}
+
+.grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+.row { display: flex; align-items: center; justify-content: space-between; gap: 1rem; }
+.backup { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
+.backup button, .backup .import {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .5rem .75rem;
+  border-radius: .6rem;
+}
+.backup .import { position: relative; overflow: hidden; }
+.backup .import input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.backup button:hover, .backup .import:hover { border-color: var(--muted); }
+
+.add { display: flex; gap: .5rem; margin-top: .5rem; }
+.add input {
+  flex: 1;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: .6rem .8rem;
+  border-radius: .6rem;
+}
+.add button {
+  background: var(--accent);
+  border: 0;
+  color: #000;
+  padding: .6rem 1rem;
+  border-radius: .6rem;
+  font-weight: 700;
+}
+.add button:hover { background: var(--accent-2); }
+
+.list { list-style: none; padding: 0; margin: .75rem 0 0 0; display: grid; gap: .5rem; }
+.item {
+  display: grid;
+  grid-template-columns: 1fr auto auto auto;
+  align-items: center; gap: .5rem;
+  background: var(--surface); border: 1px solid var(--border); border-radius: .8rem; padding: .6rem .8rem;
+}
+.item .name { font-weight: 600; }
+.item .streak { color: var(--muted); font-size: .9rem; }
+.item .btn {
+  background: transparent; border: 1px solid var(--border); color: var(--text); padding: .4rem .7rem; border-radius: .6rem;
+}
+.item .btn.done.doneToday { border-color: var(--accent); color: var(--accent); font-weight: 700; }
+.item .icon { background: transparent; border: 0; padding: .4rem; }
+.item.dragging { opacity: .6; outline: 2px dashed var(--accent); }
+
+.moods { display: flex; gap: .5rem; flex-wrap: wrap; }
+.moods button {
+  font-size: 1.6rem; background: transparent; border: 1px solid var(--border); border-radius: .6rem; padding: .2rem .5rem;
+}
+.moods button.active { border-color: var(--accent); }
+
+.switch { display: inline-flex; align-items: center; gap: .5rem; }
+.small { font-size: .9rem; }
+.muted { color: var(--muted); }
+
+.footer { display: flex; align-items: center; justify-content: space-between; color: var(--muted); padding-bottom: 3rem; }
+
+.settings { display: grid; gap: .5rem; }
+.setting { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; }
