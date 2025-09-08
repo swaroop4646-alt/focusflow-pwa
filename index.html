@@ -1,102 +1,52 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>FocusFlow - Habit & Mood Tracker</title>
-  <meta name="description" content="Privacy-first, offline-capable habit and mood tracker." />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FocusFlow</title>
   <link rel="manifest" href="manifest.json" />
-  <meta name="theme-color" content="#22c55e" />
-  <link rel="icon" href="icons/icon-192.png" />
+  <link rel="icon" href="icons/favicon.ico" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
-  <script defer src="app.js"></script>
 </head>
 <body>
-  <header class="container header">
-    <div class="brand">
-      <img src="icons/icon-192.png" class="logo" alt="FocusFlow logo" />
-      <div>
-        <h1>FocusFlow</h1>
-        <p class="tagline">Simple - Private - Offline</p>
-      </div>
-    </div>
+  <header>
+    <img src="icons/icon-192.png" alt="FocusFlow logo" class="logo">
+    <h1>FocusFlow</h1>
     <div class="header-actions">
-      <button id="btnTheme" aria-label="Toggle theme">Theme</button>
-      <div id="installPrompt" class="install hidden"><button id="btnInstall">Install</button></div>
+      <button id="themeBtn" title="Toggle Theme"><img src="icons/theme.svg" alt="theme"></button>
+      <button id="installBtn" title="Install App"><img src="icons/install.svg" alt="install"></button>
     </div>
   </header>
-  <main class="container">
-    <section class="card">
-      <div class="row">
-        <h2>Today <span id="todayLabel" aria-live="polite"></span></h2>
-        <div class="backup">
-          <button id="btnExportXLSX" title="Export an Excel backup">Export Excel</button>
-          <label class="import">
-            <input type="file" id="fileImportXLSX" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
-            Import Excel
-          </label>
-          <button id="btnAutoBackup" title="Save a local snapshot">Create Snapshot</button>
-          <button id="btnDownloadSnapshot" title="Download last snapshot">Download Snapshot</button>
-        </div>
-      </div>
-      <div class="add">
-        <input id="habitName" type="text" inputmode="text" placeholder="Add a habit (e.g., Drink water)" />
-        <button id="btnAdd">Add</button>
-      </div>
-      <ul id="habitList" class="list" aria-live="polite"></ul>
-      <p class="muted small">Tip: Drag to reorder. Tap edit to rename. Use Export Excel to back up.</p>
-    </section>
+  <main>
     <section class="grid">
-      <section class="card">
+      <div class="card">
         <h2>Mood</h2>
-        <div id="moodButtons" class="moods" role="group" aria-label="Select your mood">
-          <button data-mood="1" title="Very low">:-(</button>
-          <button data-mood="2" title="Low">:-(</button>
-          <button data-mood="3" title="Okay">:|</button>
-          <button data-mood="4" title="Good">:-)</button>
-          <button data-mood="5" title="Great">:-D</button>
+        <div class="moods">
+          <button>😞</button>
+          <button>☹️</button>
+          <button>😐</button>
+          <button>🙂</button>
+          <button>😄</button>
         </div>
-        <p id="moodStatus" class="muted">No mood logged yet today.</p>
-      </section>
-      <section class="card">
-        <h2>Last 30 days</h2>
-        <div class="chart-wrap"><canvas id="historyChart" aria-label="Last 30 days completion history" role="img"></canvas></div>
-      </section>
-    </section>
-    <section class="card">
-      <h2>Settings</h2>
-      <div class="settings">
-        <label for="reminderTime">Reminder time</label>
-        <input id="reminderTime" type="time" />
-        <label class="switch"><input id="reminderEnabled" type="checkbox" /><span>Enable</span></label>
-        <button id="btnAskNotification">Allow notifications</button>
-        <p class="muted small">Reminders work while the app is open. For background notifications you'll need a server (Pro).</p>
+      </div>
+      <div class="card">
+        <h2>Last 30 Days</h2>
+        <canvas id="historyChart"></canvas>
       </div>
     </section>
     <section class="card">
-      <h2>Advanced</h2>
-      <div class="settings">
-        <button id="btnExportJSON">Export JSON</button>
-        <button id="btnClearData" title="Clear local data (careful)">Clear All Local Data</button>
-        <p class="muted small">Clear only if you have exported a backup. Clearing cannot be undone.</p>
-      </div>
+      <h2>Habits</h2>
+      <div id="habits"></div>
+      <div class="add"><button id="addHabit">+ Add Habit</button></div>
     </section>
-    <section class="card">
-      <h2>Privacy</h2>
-      <p class="muted small">All data is stored locally in your device. No accounts, no tracking.</p>
+    <section class="card backup">
+      <h2>Backup</h2>
+      <button id="exportBtn">Export Data</button>
+      <input type="file" id="importFile" class="import" />
     </section>
   </main>
-  <footer class="container footer">
-    <div class="links"><a href="privacy.html">Privacy</a> <a href="terms.html">Terms</a></div>
-    <div class="muted">© 2025 FocusFlow</div>
-  </footer>
-  <script>
-    if ('serviceWorker' in navigator) {
-      window.addEventListener('load', function(){ navigator.serviceWorker.register('./sw.js').catch(console.error); });
-    }
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
