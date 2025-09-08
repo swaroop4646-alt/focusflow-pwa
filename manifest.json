@@ -1,11 +1,11 @@
 {
-  "name": "FocusFlow \u2014 Habit & Mood Tracker",
+  "name": "FocusFlow - Habit & Mood Tracker",
   "short_name": "FocusFlow",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#0b0f13",
   "theme_color": "#22c55e",
-  "description": "A clean, offline-first habit & mood tracker. Private. No signup.",
+  "description": "Privacy-first habit & mood tracker. Works offline.",
   "icons": [
     {
       "src": "icons/icon-192.png",
