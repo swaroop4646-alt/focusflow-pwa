@@ -1,52 +1,131 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>FocusFlow</title>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+  <title>FocusFlow — Habit & Mood</title>
+  <meta name="description" content="A premium, privacy-first habit & mood tracker. Pastel design. Works offline." />
+  <meta name="theme-color" content="#f6f7ff" />
   <link rel="manifest" href="manifest.json" />
-  <link rel="icon" href="icons/favicon.ico" />
+  <link rel="icon" href="favicon.ico" />
   <link rel="apple-touch-icon" href="icons/icon-192.png" />
   <link rel="stylesheet" href="styles.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.19.3/dist/xlsx.full.min.js"></script>
 </head>
 <body>
-  <header>
-    <img src="icons/icon-192.png" alt="FocusFlow logo" class="logo">
-    <h1>FocusFlow</h1>
-    <div class="header-actions">
-      <button id="themeBtn" title="Toggle Theme"><img src="icons/theme.svg" alt="theme"></button>
-      <button id="installBtn" title="Install App"><img src="icons/install.svg" alt="install"></button>
+  <div id="offlineBadge" class="offline-badge" hidden>Offline</div>
+
+  <header class="shell header">
+    <div class="brand">
+      <img src="icons/icon-192.png" class="logo" width="44" height="44" alt="FocusFlow" />
+      <div>
+        <h1>FocusFlow</h1>
+        <p class="muted">Beautiful. Private. Offline.</p>
+      </div>
+    </div>
+    <div class="actions">
+      <button id="btnTheme" class="icon-btn" title="Toggle theme"><img src="icons/theme.svg" alt="Theme"></button>
+      <button id="btnInstall" class="icon-btn" title="Install app"><img src="icons/install.svg" alt="Install"></button>
+      <button id="btnAbout" class="icon-btn" title="About"><img src="icons/info.svg" alt="About"></button>
     </div>
   </header>
-  <main>
-    <section class="grid">
-      <div class="card">
-        <h2>Mood</h2>
-        <div class="moods">
-          <button>😞</button>
-          <button>☹️</button>
-          <button>😐</button>
-          <button>🙂</button>
-          <button>😄</button>
+
+  <main class="shell">
+    <section class="card hero">
+      <div class="hero-text">
+        <h2>Own your day</h2>
+        <p class="muted">Track habits and moods with a calm pastel interface. Your data stays on your device.</p>
+      </div>
+    </section>
+
+    <section class="card">
+      <div class="row">
+        <h2>Today <span id="todayLabel" class="muted"></span></h2>
+        <div class="inline-actions">
+          <button id="btnExportXLSX" class="btn">Export Excel</button>
+          <label class="btn file">
+            <input id="fileImportXLSX" type="file" accept=".xlsx,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" />
+            Import Excel
+          </label>
+          <button id="btnSnapshot" class="btn">Snapshot</button>
+          <button id="btnDownloadSnapshot" class="btn">Download Snapshot</button>
         </div>
       </div>
-      <div class="card">
-        <h2>Last 30 Days</h2>
-        <canvas id="historyChart"></canvas>
+
+      <div class="add">
+        <input id="habitName" type="text" placeholder="Add a habit (e.g., Write journal)" aria-label="New habit name" />
+        <button id="btnAdd" class="btn accent">Add</button>
+      </div>
+
+      <ul id="habitList" class="list" aria-live="polite"></ul>
+      <p class="hint">Tip: Drag to reorder • Edit to rename • Export regularly for backups.</p>
+    </section>
+
+    <section class="grid">
+      <section class="card">
+        <h2>Mood</h2>
+        <div id="moodButtons" class="moods" role="group" aria-label="Select your mood">
+          <button data-mood="1" title="Very low" aria-label="Very low mood">😞</button>
+          <button data-mood="2" title="Low" aria-label="Low mood">☹️</button>
+          <button data-mood="3" title="Okay" aria-label="Okay mood">😐</button>
+          <button data-mood="4" title="Good" aria-label="Good mood">🙂</button>
+          <button data-mood="5" title="Great" aria-label="Great mood">😄</button>
+        </div>
+        <p id="moodStatus" class="muted">No mood logged yet today.</p>
+      </section>
+
+      <section class="card">
+        <h2>Last 30 days</h2>
+        <div class="chart-wrap"><canvas id="historyChart"></canvas></div>
+      </section>
+    </section>
+
+    <section class="card">
+      <h2>Settings</h2>
+      <div class="settings">
+        <label for="reminderTime">Reminder time</label>
+        <input id="reminderTime" type="time" />
+        <label class="switch"><input id="reminderEnabled" type="checkbox" /> Enable</label>
+        <button id="btnAskNotification" class="btn">Allow notifications</button>
+      </div>
+      <p class="muted small">Reminders fire when the app is open. Background push would require a server (future).</p>
+    </section>
+
+    <section class="card">
+      <h2>Advanced</h2>
+      <div class="settings">
+        <button id="btnExportJSON" class="btn">Export JSON</button>
+        <button id="btnClearData" class="btn danger">Clear Local Data</button>
       </div>
     </section>
+
     <section class="card">
-      <h2>Habits</h2>
-      <div id="habits"></div>
-      <div class="add"><button id="addHabit">+ Add Habit</button></div>
-    </section>
-    <section class="card backup">
-      <h2>Backup</h2>
-      <button id="exportBtn">Export Data</button>
-      <input type="file" id="importFile" class="import" />
+      <h2>Privacy</h2>
+      <p class="muted small">All data lives on your device. No accounts. No tracking. Export Excel anytime.</p>
     </section>
   </main>
-  <script src="app.js"></script>
+
+  <footer class="shell footer">
+    <div class="links"><a href="privacy.html">Privacy</a> • <a href="terms.html">Terms</a></div>
+    <div class="muted">© 2025 FocusFlow</div>
+  </footer>
+
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+
+  <dialog id="onboarding" class="modal">
+    <form method="dialog" class="modal-inner">
+      <img src="icons/icon-192.png" alt="" class="modal-logo" />
+      <h3>Welcome to FocusFlow</h3>
+      <p class="muted">Tap <strong>+ Add</strong> to create a habit, then hit <strong>Mark</strong> each day. Use the mood row to log how you feel.</p>
+      <p class="muted small">Install from the top-right ⋯ for a full-screen app.</p>
+      <div class="modal-actions">
+        <button value="dismiss" class="btn accent">Let’s go</button>
+      </div>
+    </form>
+  </dialog>
+
+  <script src="app.js" defer></script>
+  <script>if('serviceWorker' in navigator){window.addEventListener('load',()=>navigator.serviceWorker.register('./sw.js'));}</script>
 </body>
 </html>
